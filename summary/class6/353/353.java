@@ -8,14 +8,13 @@ class SnakeGame {
     public SnakeGame(int width, int height, int[][] food) {
         _score = 0;
         _head = new Node(0, 0);
-        _curDirection = "";
         _snake = new LinkedList<Node>();
-        _snake.addLast(_head);
+        _snake.addFirst(_head);
         _boardX = width-1;
         _boardY = height-1;
         _foods = new LinkedList<Node>();
         for (int i = 0; i < food.length; i++) {
-            Node node = new Node(food[i][0], food[i][1]);
+            Node node = new Node(food[i][1], food[i][0]);
             _foods.add(node);
         }
         _nodes = new HashMap<Integer, HashSet<Integer>>();
@@ -31,29 +30,13 @@ class SnakeGame {
     public int move(String direction) {
         Node newHead = new Node(_head._x, _head._y);
         if (direction.equals("U")) {
-            if (_curDirection.equals("D")) {
-                return _score;
-            }
-            _curDirection = "U";
-            newHead._y -= 1;
+            newHead._y--;
         } else if (direction.equals("L")) {
-            if (_curDirection.equals("R")) {
-                return _score;
-            }
-            _curDirection = "L";
-            newHead._x -= 1;
+            newHead._x--;
         } else if (direction.equals("R")) {
-            if (_curDirection.equals("L")) {
-                return _score;
-            }
-            _curDirection = "R";
-            newHead._x += 1;
+            newHead._x++;
         } else if (direction.equals("D")) {
-            if (_curDirection.equals("U")) {
-                return _score;
-            }
-            _curDirection = "D";
-            newHead._y += 1;
+            newHead._y++;
         } else {
             return _score;
         }
@@ -62,16 +45,17 @@ class SnakeGame {
             _score++;
             _foods.remove();
         } else {
-            Node oldTail = _snake.getLast();
+            Node oldTail = _snake.removeLast();
             removeNode(oldTail);
         }
         if (hitBoarder(newHead) || hitSelf(newHead)) {
             return -1;
-        } else {
-            _head = newHead;
-            addNode(_head);
-            return _score;
-        }
+        } 
+        _head = newHead;
+        _snake.addFirst(_head);
+        addNode(_head);
+        return _score;
+        
     }
 
     private void addNode(Node node) {
@@ -86,7 +70,7 @@ class SnakeGame {
             ySet.add(y);
         }
         _nodes.put(x, ySet);
-        _snake.addFirst(node);
+        
     }
 
     private void removeNode(Node node) {
@@ -95,7 +79,6 @@ class SnakeGame {
         HashSet<Integer> ySet = _nodes.get(x);
         ySet.remove(y);
         _nodes.put(x, ySet);
-        _snake.removeLast();
     }
 
     private boolean hitBoarder(Node newHead) {
