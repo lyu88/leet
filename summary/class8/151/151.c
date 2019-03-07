@@ -1,11 +1,3 @@
-char* reverseWords(char* s) 
-{
-
-	reverse_word(s, len);
-
-    return s;
-}
-
 void swap(char* s, char* t) 
 {
 	char temp = *s;
@@ -13,13 +5,12 @@ void swap(char* s, char* t)
 	*t = temp;
 }
 
-char* trim_space_head(char* s)
+void trim_space_head(char* s)
 {
-    while (*s == ' ')
+    while (*s == ' ' && *s != '\0')
     {
     	s++;
     }
-    return s;
 }
 
 int trim_space_middle(char* s, int len)
@@ -41,19 +32,22 @@ int trim_space_middle(char* s, int len)
 		}
 	}
 	*t = '\0';
+	s = head;
 	return len - count;
 }
 
-void reverse_word(char* s)
+void reverse_word(char* s, int start, int end)
 {
-	int len = 0;
-	while (*s != '\0')
-	{
-		len++;
-		s++;
-	}
+	int len = end - start + 1;
 	for (int i = 0; i < len / 2; i++)
 	{
-		swap(s+i, s+len-1-i);
+		swap(start + i, end - i);
 	}
 }
+
+char* reverseWords(char* s) 
+{
+
+    return s;
+}
+
