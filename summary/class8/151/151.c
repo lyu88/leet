@@ -1,53 +1,82 @@
-void swap(char* s, char* t) 
+// doesn't apply to literal string as char*, but only applies to char array
+// my goal is O(1) extra space
+void swap(char* s, char* t)
 {
 	char temp = *s;
 	*s = *t;
 	*t = temp;
 }
 
-void trim_space_head(char* s)
+char* trim_space_head(char* s)
 {
-    while (*s == ' ' && *s != '\0')
-    {
-    	s++;
-    }
+	while (*s == ' ' && *s != '\0')
+	{
+		s++;
+	}
+	return s;
 }
 
-int trim_space_middle(char* s, int len)
+char* trim_space_middle(char* s)
 {
-	char* t = s, head = s;
-	int count = 0;
+	char* t = s, *head = s;
 	s++;
 	t++;
 	while (*s != '\0')
 	{
-		if (*s == ' ' && *(s-1) == ' ') 
+		if (*s == ' ' && *(s - 1) == ' ')
 		{
 			s++;
-			count++;
 		}
-		else 
+		else
 		{
 			*(t++) = *(s++);
 		}
 	}
 	*t = '\0';
-	s = head;
-	return len - count;
+	return head;
 }
 
 void reverse_word(char* s, int start, int end)
 {
-	int len = end - start + 1;
-	for (int i = 0; i < len / 2; i++)
+	char* left = s + start;
+	char* right = s + end;
+	while (left < right)
 	{
-		swap(start + i, end - i);
+		swap(left++, right--);
 	}
 }
 
-char* reverseWords(char* s) 
+void reverse_word_full(char* s)
 {
-
-    return s;
+	int len = 0;
+	char* head = s;
+	while (*s != '\0')
+	{
+		s++;
+		len++;
+	}
+	reverse_word(head, 0, len - 1);
 }
 
+char* reverseWords(char* s)
+{
+	int start = 0, end = 0;
+	char* head;
+	s = trim_space_head(s);
+	reverse_word_full(s);
+	s = trim_space_head(s);
+	s = trim_space_middle(s);
+	head = s;
+	while (*s != '\0')
+	{
+		if (*s == ' ')
+		{
+			reverse_word(head, start, end - 1);
+			start = end + 1;
+		}
+		end++;
+		s++;
+	}
+	reverse_word(head, start, end - 1);
+	return head;
+}
