@@ -1,5 +1,3 @@
-// doesn't apply to literal string as char*, but only applies to char array
-// my goal is O(1) extra space
 void swap(char* s, char* t)
 {
 	char temp = *s;
@@ -7,8 +5,14 @@ void swap(char* s, char* t)
 	*t = temp;
 }
 
-char* trim_space_head(char* s)
+char* trim_space_2end(char* s)
 {
+	int len = strlen(s);
+	while (len > 0 && *(s+len) == ' ')
+	{
+		*(s+len) = '\0';
+		len--;
+	}
 	while (*s == ' ' && *s != '\0')
 	{
 		s++;
@@ -19,6 +23,8 @@ char* trim_space_head(char* s)
 char* trim_space_middle(char* s)
 {
 	char* t = s, *head = s;
+	if (*s == "")
+		return s;
 	s++;
 	t++;
 	while (*s != '\0')
@@ -48,25 +54,19 @@ void reverse_word(char* s, int start, int end)
 
 void reverse_word_full(char* s)
 {
-	int len = 0;
-	char* head = s;
-	while (*s != '\0')
-	{
-		s++;
-		len++;
-	}
-	reverse_word(head, 0, len - 1);
+	int len = strlen(s);
+	reverse_word(s, 0, len - 1);
 }
 
 char* reverseWords(char* s)
 {
 	int start = 0, end = 0;
 	char* head;
-	s = trim_space_head(s);
-	reverse_word_full(s);
-	s = trim_space_head(s);
+	s = trim_space_2end(s);
 	s = trim_space_middle(s);
+	reverse_word_full(s);
 	head = s;
+	   
 	while (*s != '\0')
 	{
 		if (*s == ' ')
