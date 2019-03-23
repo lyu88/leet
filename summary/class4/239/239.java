@@ -29,4 +29,31 @@ class Solution {
         }
         return results;
     }
+
+
+    //using deque
+    public int[] maxSlidingWindow(int[] a, int k) {
+        if (a.length == 0) {
+            return new int[]{};
+        }
+
+        final int n = a.length;
+        Deque<Integer> indexDeque = new LinkedList<>();
+        int[] results = new int[n - k + 1];
+        for (int i = 0; i < n; i++) {
+            while (!indexDeque.isEmpty() && a[i] >= a[indexDeque.getLast()]) {
+                indexDeque.removeLast();
+            }
+            if (!indexDeque.isEmpty() && indexDeque.getLast() == i - k) {
+                indexDeque.removeFirst();
+            }
+            indexDeque.addLast(i);
+            if (i >= k - 1) {
+                results[i - k + 1] = indexDeque.getFirst();
+            }
+
+        }
+        return results;
+    }
+
 }
