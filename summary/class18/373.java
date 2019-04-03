@@ -2,6 +2,35 @@ class Solution {
     public List<int[]> kSmallestPairs(int[] a, int[] b, int k) {
         List<int[]> results = new ArrayList<>();
         if (a.length == 0 || b.length == 0) {
+            return results;
+        }
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(a[o1[0]] + b[o1[1]], a[o2[0]] + b[o2[1]]));
+        for (int i = 0; i < a.length; i++) {
+            minHeap.add(new int[]{i, 0});
+        }
+        int[] records = new int[a.length];
+        while (!heap.isEmpty()) {
+            int[] node = minHeap.poll();
+            int i = node[0];
+            int j = node[1];
+            int[] result = {a[i], b[j]};
+            results.add(result);
+            if (results.size() == k) {
+                break;
+            }
+            records[i]++;
+            if (records[i] < b.length) {
+                minHeap.add(new int[]{i, records[i]});
+            }
+        }
+        
+        return results;
+    }
+
+
+    public List<int[]> kSmallestPairs1(int[] a, int[] b, int k) {
+        List<int[]> results = new ArrayList<>();
+        if (a.length == 0 || b.length == 0) {
         	return results;
         }
         PriorityQueue<Node> heap = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.sum, o2.sum));
