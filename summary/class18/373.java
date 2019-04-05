@@ -5,11 +5,12 @@ class Solution {
             return results;
         }
         PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(a[o1[0]] + b[o1[1]], a[o2[0]] + b[o2[1]]));
-        for (int i = 0; i < a.length; i++) {
-            minHeap.add(new int[]{i, 0});
-        }
-        int[] records = new int[a.length];
-        while (!heap.isEmpty()) {
+        boolean[] posA = new boolean[a.length];
+        boolean[] posB = new boolean[b.length];
+        minHeap.add(new int[]{0, 0});
+        posA[0] = true;
+        posB[0] = true;
+        while (!minHeap.isEmpty()) {
             int[] node = minHeap.poll();
             int i = node[0];
             int j = node[1];
@@ -18,9 +19,13 @@ class Solution {
             if (results.size() == k) {
                 break;
             }
-            records[i]++;
-            if (records[i] < b.length) {
-                minHeap.add(new int[]{i, records[i]});
+            if (i + 1 < a.length && !posA[i + 1]) {
+                posA[i + 1] = true;
+                minHeap.add(new int[]{i + 1, j});
+            }
+            if (j + 1 < b.length && !posB[j + 1]) {
+                posB[j + 1] = true;
+                minHeap.add(new int[]{i, j + 1});
             }
         }
         
