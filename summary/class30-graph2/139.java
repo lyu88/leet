@@ -25,4 +25,26 @@ class Solution {
     	
     	return f[M] == Integer.MAX_VALUE ? -1 : f[M];
     }
+
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+
+        final int n = s.length();
+        boolean[] allResults = new boolean[n + 1];
+
+        allResults[n] = true;
+
+        for (int i = n - 1; i >= 0; --i) {
+            for (String word : wordDict) {
+                int len = word.length();
+                if (i + len <= n && s.substring(i, i + len).equals(word)) {
+                    if(allResults[i + len]) {
+                        allResults[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return allResults[0];
+    }
 }
