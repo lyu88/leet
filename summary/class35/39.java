@@ -34,3 +34,31 @@ class Solution {
     	}
     }
 }
+
+
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] cans, int tgt) {
+        Arrays.sort(cans);
+        List<List<Integer>> allRes = new ArrayList<>();
+        dfs(tgt, 0, cans, allRes, new ArrayList<Integer>());
+        return allRes;
+    }
+    
+    private void dfs(int tgt, int startIndex, int[] cans, List<List<Integer>> allRes, List<Integer> path) {
+        if (tgt == 0) {
+            allRes.add(new ArrayList<Integer>(path));
+            return;
+        }
+        
+        for (int i = startIndex; i < cans.length; i++) {
+            int can = cans[i];
+            if (can > tgt) {
+                break;
+            }
+            path.add(can);
+            dfs(tgt - can, i, cans, allRes, path);
+            path.remove(path.size() - 1);
+        }
+    }
+}
