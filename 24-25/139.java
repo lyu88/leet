@@ -1,3 +1,4 @@
+// dfs solution
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         final int len = s.length();
@@ -21,5 +22,24 @@ class Solution {
         }
         allRes[index] = flag;
         return flag;
+    }
+}
+
+// dp solution
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        final int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[n] = true;
+        for (int i = n - 1; i >= 0; i--) {
+            for (String word : wordDict) {
+                int len = word.length();
+                if (i + len <= n && s.substring(i, i + len).equals(word) && dp[i + len]) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[0];
     }
 }
