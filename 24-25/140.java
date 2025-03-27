@@ -36,3 +36,34 @@ class Solution {
         return dp;
     }
 }
+
+class Solution {
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<>(wordDict); // Fast lookup
+        Map<String, List<String>> memo = new HashMap<>();
+        memo.put("", List.of(""));
+        return dfs(s, set, memo);
+    }
+
+    private List<String> dfs(String s, Set<String> set, Map<String, List<String>> memo) {
+        if (memo.containsKey(s)) {
+            return memo.get(s);
+        }
+        List<String> result = new ArrayList<>();
+        for (String word : set) {
+            if (s.startsWith(word)) {
+                String suffix = s.substring(word.length());
+                List<String> subRes = dfs(suffix, set, memo);
+                for (String sub : subRes) {
+                    if (sub.isEmpty()) {
+                        result.add(word);
+                    } else {    
+                        result.add(word + " " + sub);
+                    }
+                }
+            }
+        }
+        memo.put(s, result);
+        return result;
+    } 
+}
