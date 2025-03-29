@@ -23,3 +23,43 @@ class Solution {
         return (n & (n + 1)) == 0;
     }
 }
+
+class Solution {
+    public int racecar(int target) {
+        Queue<int[]> queue = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
+        // (position, speed)
+        queue.offer(new int[]{0, 1});
+        visited.add("0,1");
+        int step = 0;
+        while (!queue.isEmpty()) {
+            final int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] state = queue.poll();
+                int pos = state[0];
+                int speed = state[1];
+                if (pos == target) {
+                    return step;
+                }
+                // forward
+                int nextPos = pos + speed;
+                int nextSpeed = 2 * speed;
+                String nextState = "" + nextPos + "," + nextSpeed;
+                if (!visited.contains(nextState) && nextPos < 2 * target) {
+                    visited.add(nextState);
+                    queue.add(new int[]{nextPos, nextSpeed});
+                }
+                // reverse
+                nextPos = pos ;
+                nextSpeed = speed > 0 ? -1 : 1;
+                nextState = "" + nextPos + "," + nextSpeed;
+                if (!visited.contains(nextState)) {
+                    visited.add(nextState);
+                    queue.add(new int[]{nextPos, nextSpeed});
+                }
+            }
+             step++;
+        }
+        return -1;
+    }
+}
