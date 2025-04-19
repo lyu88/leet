@@ -18,3 +18,19 @@ class Solution {
         inorder(root.right, prev, minDiff);
     }
 }
+
+
+// similar
+// bst inorder is sorted
+private void inorder(TreeNode root, TreeNode[] pre, int[] ret) {
+        if (root.left != null) {
+            inorder(root.left, pre, ret);
+        }
+        if (pre[0] != null) {
+            ret[0] = Math.min(ret[0], Math.abs(pre[0].val - root.val));
+        }
+        pre[0] = root;
+        if (root.right != null) {
+            inorder(root.right, pre, ret);
+        }
+    }
