@@ -30,3 +30,35 @@ class Solution {
         return false;
     }
 }
+
+// case analysis
+// 迎刃而解 
+
+class Solution {
+    public boolean search(int[] nums, int target) {
+        return find(nums, target, 0, nums.length - 1);
+    }
+
+    private boolean find(int[] a, int tgt, int start, int end) {
+        if (start > end) {
+            return false;
+        }
+        int mid = start + (end - start) / 2;
+        if (a[mid] == tgt) {
+            return true;
+        }
+        if (a[mid] == a[start]) {
+            return find(a, tgt, start + 1, mid - 1) || find(a, tgt, mid + 1, end);
+        } else if (a[mid] < a[start]) {
+            if (a[mid] < tgt) {
+                return find(a, tgt, start, mid - 1) || find(a, tgt, mid + 1, end);
+            }
+            return find(a, tgt, start, mid - 1);
+        } else {
+            if (a[mid] < tgt) {
+                return find(a, tgt, mid + 1, end);
+            }
+            return find(a, tgt, start, mid - 1) || find(a, tgt, mid + 1, end);
+        }
+    }
+}
