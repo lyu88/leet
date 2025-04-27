@@ -70,3 +70,82 @@ public class Solution {
 
 
 }
+
+// redo with method union
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+
+public class Solution {
+    /**
+     * @param n: An integer
+     * @param m: An integer
+     * @param operators: an array of point
+     * @return: an integer array
+     */
+
+    int find(int id, int[] g) {
+        if (g[id] != id) {
+            g[id] = find(g[id], g);
+        }
+        return g[id];
+    }
+
+    void union(int id1, int id2, int[] g) {
+        int fa1 = find(id1, g);
+        int fa2 = find(id2, g);
+        if (fa1 < fa2) {
+            g[fa2] = fa1;
+        } else {
+            g[fa1] = fa2;
+        }
+    }
+
+    int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    public List<Integer> numIslands2(int n, int m, Point[] operators) {
+        // write your code here
+        List<Integer> ret = new ArrayList<>();
+        if (operators.length == 0) {
+            return ret;
+        }
+        int[] g = new int[n*m];
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < m; y++) {
+                int site = x*m + y;
+                g[site] = site;
+            }
+        }
+        int cnt = 0;
+        boolean[] visited = new boolean[n*m];
+        for (Point operator : operators) {
+            int x = operator.x;
+            int y = operator.y;
+            if (visited[x*m + y]) {
+                ret.add(cnt);
+                continue;
+            }
+            visited[x*m + y] = true;
+            cnt++;
+            for (int[] dir : dirs) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
+                if (nx < 0 || nx >= n || ny < 0 || ny >= m || !visited[nx*m + ny]) {
+                    continue;
+                }
+                if (find(x*m+y, g) != find(nx*m + ny, g)) {
+                    cnt--;
+                    union(nx*m+ny, x*m+y, g);
+                }
+            }
+            ret.add(cnt);
+        }
+        return ret;
+    }
+}
