@@ -48,3 +48,30 @@ class Solution {
         return true;
     }
 }
+
+// dp trick too many
+// as building pal and dp solution at the same time
+class Solution {
+    public int minCut(String s) {
+        char[] c = s.toCharArray();
+        int n = s.length();
+        int[] dp = new int[n];
+        boolean[][] pal = new boolean[n][n];
+
+        for (int col = 0; col < n; col++) {
+            int min = col;
+            for (int row = 0; row <= col; row++) {
+                if (c[row] == c[col] && (row + 1 > col - 1 || pal[row+1][col-1])) {
+                    pal[row][col] = true;
+                    if (row == 0) {
+                        min = 0;
+                    } else {
+                        min = Math.min(min, 1 + dp[row - 1]);
+                    }
+                }
+            }
+            dp[col] = min;
+        }
+        return dp[n - 1];
+    }
+}
