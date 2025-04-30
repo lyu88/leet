@@ -49,6 +49,39 @@ class Solution {
     }
 }
 
+// straight dp solution
+// better than first trial
+class Solution {
+    public int minCut(String s) {
+        final int n = s.length();
+        int[] dp = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (isPal(s, 0, i)) {
+                dp[i] = 0;
+                continue;
+            }
+            dp[i] = i;
+            for (int x = 0; x < i; x++) {
+                if (isPal(s, x+1, i)) {
+                    dp[i] = Math.min(dp[i], 1 + dp[x]);
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+
+    private boolean isPal (String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+
 // dp trick too many
 // as building pal and dp solution at the same time
 class Solution {
