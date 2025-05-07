@@ -23,3 +23,30 @@ public class Solution {
         return dp[n-1][m];
     }
 }
+
+// save space
+public class Solution {
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param a: Given n items with size A[i]
+     * @param v: Given n items with value V[i]
+     * @return: The maximum value
+     */
+    public int backPackII(int m, int[] a, int[] v) {
+        // write your code here
+        final int n = a.length;
+        int[] cur = new int[m + 1];
+        int[] pre = new int[m + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                cur[j] = pre[j];
+                if (j >= a[i-1])
+                    cur[j] = Math.max(cur[j], pre[j - a[i - 1]] + v[i-1]);
+            }
+            int[] tmp = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return pre[m];
+    }
+}
