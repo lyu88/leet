@@ -1,3 +1,4 @@
+// 等于是用dp把set换了， 还是树dfs写法
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
         Set<String> set = new HashSet<>(wordDict);
@@ -37,6 +38,7 @@ class Solution {
     }
 }
 
+// 这dag没毛病，虽然比前一种慢
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
         Set<String> set = new HashSet<>(wordDict); // Fast lookup
