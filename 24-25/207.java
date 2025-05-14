@@ -45,3 +45,64 @@ class Solution {
 
     
 }
+
+// bfs needs to optimize code
+class Solution {
+    public boolean canFinish(int n, int[][] pres) {
+        Map<Integer, List<Integer>> graph = buildGraph(pres);
+        int[] indegrees = getIndegrees(n, graph);
+        Queue<Integer> que = new ArrayDeque<>();
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            if (indegrees[i] == 0) {
+                que.add(i);
+                visited[i] = true;
+            }
+        }
+        while (!que.isEmpty()) {
+            for (int i = 0; i < que.size(); i++) {
+                int node = que.poll();
+                if (!graph.containsKey(node)) {
+                    continue;
+                }
+                for (int nei : graph.get(node)) {
+                    indegrees[nei]--;
+                    if (indegrees[nei] == 0) {
+                        que.add(nei);
+                        if (visited[nei]) {
+                            return false;
+                        }
+                        visited[nei] = true;
+                    }
+                }
+            }
+            
+        }
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    int[] getIndegrees(int n, Map<Integer, List<Integer>> graph) {
+        int[] indegrees = new int[n];
+        for (int key : graph.keySet()) {
+            for (int node : graph.get(key)) {
+                indegrees[node]++;
+            }
+        }
+        return indegrees;
+    }
+
+    Map<Integer, List<Integer>> buildGraph(int[][] pres) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] pre : pres) {
+            int key = pre[1];
+            graph.putIfAbsent(key, new ArrayList<>());
+            graph.get(key).add(pre[0]);
+        }
+        return graph;
+    }
+}
