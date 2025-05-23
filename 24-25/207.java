@@ -46,39 +46,38 @@ class Solution {
     
 }
 
-// bfs needs to optimize code
+// bfs
 class Solution {
     public boolean canFinish(int n, int[][] pres) {
-        Map<Integer, List<Integer>> graph = buildGraph(pres);
+        Map<Integer, List<Integer>> graph = buildGraph( pres);
         int[] indegrees = getIndegrees(n, graph);
-        Queue<Integer> que = new ArrayDeque<>();
-        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
             if (indegrees[i] == 0) {
-                que.add(i);
-                visited[i] = true;
+                queue.add(i);
             }
         }
-        while (!que.isEmpty()) {
-            for (int i = 0; i < que.size(); i++) {
-                int node = que.poll();
-                if (!graph.containsKey(node)) {
+        boolean[] visited = new boolean[n];
+        while (!queue.isEmpty()) {
+            final int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int key = queue.poll();
+                if (visited[key]) {
+                    return false;
+                }
+                visited[key] = true;
+                if (!graph.containsKey(key)) {
                     continue;
                 }
-                for (int nei : graph.get(node)) {
+                for (int nei : graph.get(key)) {
                     indegrees[nei]--;
                     if (indegrees[nei] == 0) {
-                        que.add(nei);
-                        if (visited[nei]) {
-                            return false;
-                        }
-                        visited[nei] = true;
+                        queue.add(nei);
                     }
                 }
             }
-            
         }
-        for (int i = 0; i < n; i++) {
+        for (int i =0; i < n; i++) {
             if (!visited[i]) {
                 return false;
             }
@@ -99,9 +98,7 @@ class Solution {
     Map<Integer, List<Integer>> buildGraph(int[][] pres) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
         for (int[] pre : pres) {
-            int key = pre[1];
-            graph.putIfAbsent(key, new ArrayList<>());
-            graph.get(key).add(pre[0]);
+            graph.computeIfAbsent(pre[1], k->new ArrayList<>()).add(pre[0]);
         }
         return graph;
     }
