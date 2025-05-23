@@ -63,9 +63,6 @@ class Solution {
             final int size = queue.size();
             for (int i = 0; i < size; i++) {
                 int key = queue.poll();
-                if (visited[key]) {
-                    return new int[0];
-                }
                 visited[key] = true;
                 ret.add(key);
                 if (!graph.containsKey(key)) {
