@@ -25,3 +25,34 @@ class Solution {
         return sb.toString();
     }
 }
+
+
+// iterative solution
+class Solution {
+    public String countAndSay(int n) {
+        String res = "1";
+        for (int i = 2; i <= n; i++) {
+            res = rle(res);
+        }
+        return res;
+    }
+
+
+    String rle(String s) {
+        char ct = s.charAt(0);
+        int num = 1;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ct) {
+                num++;
+            } else {
+                sb.append(num).append(ct);
+                ct = c;
+                num = 1;
+            }
+        }
+        sb.append(num).append(ct);
+        return sb.toString();
+    }
+}
