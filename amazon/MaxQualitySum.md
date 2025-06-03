@@ -83,7 +83,4 @@ public class Solution {
         return sum + (int)Math.ceil(median);
     }
 }
-
 ```
-
-

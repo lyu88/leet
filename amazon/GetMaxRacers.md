@@ -15,10 +15,6 @@ We can use the **sliding window technique** to maintain a window `[left, right]`
 4. Keep track of the maximum valid window size.
 
 ```java
-
-
-
-
 import java.util.*;
 
 public class Solution {
@@ -48,7 +44,6 @@ public class Solution {
         return maxLength;
     }
 }
-
 ```
 
 HackerLand Sports Club wants to send a team for a relay race. There are `n` racers in the group indexed from `0` to `n - 1`. The `i`th racer has a speed of `speed[i]` units.
@@ -85,5 +80,3 @@ k = 2
 #### **Output**
 
 3
-
-
