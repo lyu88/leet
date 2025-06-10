@@ -36,3 +36,22 @@ public class Solution {
         return minHeap.size();
     }
 }
+
+public class Solution {
+    /**
+     * @param intervals: an array of meeting time intervals
+     * @return: the minimum number of conference rooms required
+     */
+    public int minMeetingRooms(List<Interval> intervals) {
+        // Write your code here
+        intervals.sort((o1, o2) -> o1.start - o2.start);
+        PriorityQueue<Integer> que = new PriorityQueue<>();
+        for (Interval in : intervals) {
+            if (!que.isEmpty() && que.peek() <= in.start) {
+                que.poll();
+            } 
+            que.add(in.end);
+        }
+        return que.size();
+    }
+}

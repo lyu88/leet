@@ -37,6 +37,46 @@ public class ValidWordAbbr {
     }
 }
 
+// do it on 0609
+public class ValidWordAbbr {
+    /*
+    * @param dictionary: a list of words
+    */
+    Map<String, Integer> map; 
+    Set<String> set;
+    public ValidWordAbbr(String[] dictionary) {
+        map = new HashMap<>();
+        set = new HashSet<>();
+        for (String s : dictionary) {
+            if (s.length() <= 2) {
+                map.put(s, map.getOrDefault(s, 0) + 1);
+                set.add(s);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append(s.charAt(0)).append(s.length() - 2).append(s.charAt(s.length() - 1));
+                String key = sb.toString();
+                map.put(key, map.getOrDefault(key, 0) + 1);
+                set.add(s);
+            }
+        }
+    }
+
+    /*
+     * @param word: a string
+     * @return: true if its abbreviation is unique or false
+     */
+    public boolean isUnique(String s) {
+        // write your code here
+        String key = s;
+        if (s.length() > 2) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(s.charAt(0)).append(s.length() - 2).append(s.charAt(s.length() - 1));
+            key = sb.toString();
+        }
+        return !map.containsKey(key) || map.get(key) == 1 && set.contains(s);
+    }
+}
+
 /**
  * Your ValidWordAbbr object will be instantiated and called as such:
  * ValidWordAbbr obj = new ValidWordAbbr(dictionary);

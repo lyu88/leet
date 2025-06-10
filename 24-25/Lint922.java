@@ -4,28 +4,17 @@ public class Solution {
      * @return: return a list of string array
      */
     public List<List<String>> groupStrings(String[] strings) {
-        // write your code here
-        Map<String, List<String>> map = new HashMap<>();
-        for (String s : strings) {
-            String key = toKey(s);
-            map.putIfAbsent(key, new ArrayList<>());
-            map.get(key).add(s);
+        Map<String, List<String>> group = new HashMap<>();
+        for (String str : strings) {
+            StringBuilder key = new StringBuilder("a");
+            int delta = str.charAt(0) - 'a';
+            for (int i = 1; i < str.length(); i++) {
+                int charDistance = str.charAt(i) - delta < 'a' ? str.charAt(i) - delta + 26 : str.charAt(i) - delta;
+                key.append((char)charDistance);
+            }
+            group.putIfAbsent(key.toString(), new ArrayList<>());
+            group.get(key.toString()).add(str);
         }
-        List<List<String>> ret = new ArrayList<>();
-        for (String s : map.keySet()) {
-            ret.add(map.get(s));
-        }
-        return ret;
-    }
-
-    String toKey(String s) {
-        char c = s.charAt(0);
-        int diff = c - 'a';
-        StringBuilder sb = new StringBuilder("a");
-        for (int i = 1; i < s.length(); i++) {
-            c = s.charAt(i);
-            sb.append(c - diff < 'a' ? c - diff + 26 : c - diff);
-        }
-        return sb.toString();
+        return new ArrayList<>(group.values());
     }
 }
