@@ -42,3 +42,49 @@ class Solution {
         return -1;
     }
 }
+
+// 嗯，也可以直接-1
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if (Arrays.binarySearch(nums, target) < 0) {
+            return new int[]{-1, -1};
+        }
+        int first = findFirst(nums, target);
+        int last = findLast(nums, target);
+        return new int[]{first, last};
+    }
+
+    int findFirst(int[] nums, int tgt) {
+        int res = 0;
+        int start = 0, end = nums.length - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == tgt) {
+                res = mid;
+                end = mid - 1;
+            } else if (nums[mid] < tgt) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    int findLast(int[] nums, int tgt) {
+        int res = 0;
+        int start = 0, end = nums.length - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == tgt) {
+                res = mid;
+                start = mid + 1;
+            } else if (nums[mid] < tgt) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return res;
+    }
+}

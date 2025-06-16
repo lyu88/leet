@@ -51,3 +51,33 @@ class TimeMap {
  * obj.set(key,value,timestamp);
  * String param_2 = obj.get(key,timestamp);
  */
+
+class TimeMap {
+
+    Map<String, List<Integer>> mapTime;
+    Map<String, List<String>> mapVal;
+
+    public TimeMap() {
+        mapTime = new HashMap<>();
+        mapVal = new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        mapTime.putIfAbsent(key, new ArrayList<>());
+        mapTime.get(key).add(timestamp);
+        mapVal.putIfAbsent(key, new ArrayList<>());
+        mapVal.get(key).add(value);
+    }
+    
+    public String get(String key, int timestamp) {
+        if (!mapTime.containsKey(key) || timestamp < mapTime.get(key).get(0)) {
+            return "";
+        }
+        List<Integer> list = mapTime.get(key);
+        int index = Collections.binarySearch(list, timestamp);
+        if (index < 0) {
+            index = -(index+1)-1;
+        }
+        return mapVal.get(key).get(index);
+    }
+}
