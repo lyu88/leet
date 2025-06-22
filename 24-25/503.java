@@ -24,3 +24,23 @@ class Solution {
         return ret;
     }
 }
+
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        Stack<Integer> mono = new Stack<>();
+        final int len = nums.length;
+        int[] ret = new int[len]; Arrays.fill(ret, -1);
+        for (int i = 0; i < len; i++) {
+            while (!mono.isEmpty() && nums[mono.peek()] < nums[i]) {
+                ret[mono.pop()] = nums[i];
+            }
+            mono.push(i);
+        }
+        for (int i = 0; i < len; i++) {
+            while (!mono.isEmpty() && nums[mono.peek()] < nums[i]) {
+                ret[mono.pop()] = nums[i];
+            }
+        }
+        return ret;
+    }
+}
