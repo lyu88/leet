@@ -56,3 +56,32 @@ class Solution {
         return sb.toString();
     }
 }
+
+// 0622 别忘了尾子
+class Solution {
+    public String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        String pre = countAndSay(n-1);
+        return rle(pre);
+    }
+
+    String rle(String s) {
+        char c = s.charAt(0);
+        int cnt = 1;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < s.length(); i++) {
+            char d = s.charAt(i);
+            if (d == c) {
+                cnt++;
+            } else {
+                sb.append(cnt).append(c);
+                cnt = 1;
+                c = d;
+            }
+        }
+        sb.append(cnt).append(c);
+        return sb.toString();
+    }
+}

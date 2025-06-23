@@ -1,3 +1,4 @@
+// faster
 class Solution {
     public List<String> summaryRanges(int[] nums) {
         if (nums.length == 0) {
@@ -16,5 +17,35 @@ class Solution {
             }
         }
         return ret;
+    }
+}
+
+// slowest
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> ret = new ArrayList<>();
+        if (nums.length == 0) {
+            return ret;
+        }
+        int start = nums[0], end = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == end + 1) {
+                end++;
+            } else {
+                ret.add(conv(start, end));
+                start = nums[i];
+                end = nums[i];
+            }
+        }
+        ret.add(conv(start, end));
+        return ret;
+    }
+
+    String conv(int start, int end) {
+        if (start == end) {
+            return String.valueOf(start);
+        } else {
+            return ""+start+"->"+end;
+        }
     }
 }
