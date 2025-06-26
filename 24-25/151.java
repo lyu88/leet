@@ -28,6 +28,34 @@ class Solution {
     }
 }
 
+// good solution
+class Solution {
+    public String reverseWords(String s) {
+        if (s.isEmpty()) {
+            return "";
+        }
+        int start = s.charAt(0) == ' ' ? 1 : 0;
+        Stack<String> stack = new Stack<>();
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                if (s.charAt(i-1) != ' ') {
+                    stack.push(s.substring(start, i));
+                }
+                start = i + 1;
+            }
+        }
+        if (start < s.length()) {
+            stack.push(s.substring(start));
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop()).append(' ');
+        }
+        sb.setLength(sb.length() - 1);
+        return sb.toString();
+    }
+}
+
 // ai wrote in-place algo
 class Solution {
     public String reverseWords(String s) {
