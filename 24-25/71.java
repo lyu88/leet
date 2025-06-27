@@ -8,22 +8,22 @@ class Solution {
                     String item = path.substring(start, index);
                     if (item.equals("..")) {
                         if (!deque.isEmpty()) {
-                            deque.pop();
+                            deque.removeLast();
                         }
                     } else if (!item.equals(".")) {
-                        deque.push(item);
+                        deque.add(item);
                     }
                 }
-                start = index + 1;
-            } 
+                start = index+1;
+            }
             index++;
+        }
+        if (deque.isEmpty()) {
+            return "/";
         }
         StringBuilder sb = new StringBuilder("/");
         while (!deque.isEmpty()) {
-            sb.append(deque.removeLast()).append('/');
-        }
-        if (sb.length() == 1) {
-            return sb.toString();
+            sb.append(deque.remove()).append('/');
         }
         sb.setLength(sb.length() - 1);
         return sb.toString();
