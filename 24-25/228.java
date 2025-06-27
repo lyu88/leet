@@ -49,3 +49,34 @@ class Solution {
         }
     }
 }
+
+// hmmm 还是这个写法
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> ret = new ArrayList<>();
+        if (nums.length == 0) {
+            return ret;
+        }
+        int start = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i-1] + 1) {
+                continue;
+            } else {
+                ret.add(conv(nums, start, i - 1));
+                start = i;
+            }
+        }
+        if (start < nums.length) {
+            ret.add(conv(nums, start, nums.length - 1));
+        }
+        return ret;
+    }
+
+    String conv(int[] nums, int start, int end) {
+        if (start == end) {
+            return String.valueOf(nums[start]);
+        } else {
+            return ""+ nums[start] + "->" + nums[end];
+        }
+    }
+}
