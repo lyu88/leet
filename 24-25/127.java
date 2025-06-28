@@ -1,3 +1,49 @@
+
+class Solution {
+    public int ladderLength(String begin, String end, List<String> wordList) {
+        
+        Set<String> set = new HashSet<>(wordList);
+        if (!set.contains(end)) {
+            return 0;
+        }
+        int step = 0;
+        Queue<String> que = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
+        que.add(begin);
+        while (!que.isEmpty()) {
+            step++;
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                String word = que.poll();
+                if (word.equals(end)) {
+                    return step;
+                }
+                if (visited.contains(word)) {
+                    continue;
+                }
+                visited.add(word);
+                
+                for (int t = 0; t < word.length(); t++) {
+                    char d = word.charAt(t);
+                    StringBuilder sb = new StringBuilder(word);
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == d) {
+                            continue;
+                        }
+                        sb.setCharAt(t, c);
+                        String nei = sb.toString();
+                        if (set.contains(nei)) {
+                            que.add(nei);
+                        }
+                    }
+
+                }
+            }
+        }
+        return 0;
+    }
+}
+
 // faster as directly setChar on the StringBuilder
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
