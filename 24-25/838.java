@@ -1,3 +1,52 @@
+// redo 0629 now becomes traight
+class Solution {
+    public String pushDominoes(String dominoes) {
+        final int n = dominoes.length();
+        char[] chars = dominoes.toCharArray();
+        int preIndex = -1;
+        boolean preSign = false; // negative is left; positive is right
+        for (int i = 0; i < n; i++) {
+            char c = dominoes.charAt(i);
+            if (c == 'L') {
+                if (preSign) {
+                    move(chars, preIndex, i);
+                } else {
+                    for (int j = preIndex + 1; j < i; j++) {
+                        chars[j] = 'L';
+                    }
+                }
+                preIndex = i;
+                preSign = false;
+            } else if (c == 'R') {
+                if (preSign) {
+                    for (int j = preIndex + 1; j < i; j++) {
+                        chars[j] = 'R';
+                    }
+                }
+                preIndex = i;
+                preSign = true;
+            }
+        }
+        if (preSign) {
+            for (int j = preIndex + 1; j < n; j++) {
+                chars[j] = 'R';
+            }
+        }
+        return new String(chars);
+    }
+
+    void move(char[] chars, int rIndex, int lIndex) {
+        if (rIndex > lIndex) {
+            return;
+        }
+        int start = rIndex + 1, end = lIndex - 1;
+        while (start < end) {
+            chars[start++] = 'R';
+            chars[end--] = 'L';
+        }
+    }
+}
+
 class Solution {
     public String pushDominoes(String d) {
         int index = 0;
