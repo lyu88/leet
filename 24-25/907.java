@@ -1,3 +1,33 @@
+// solved the problem of int value overflow
+class Solution {
+    final static int MOD = 1_000_000_007;
+
+    public int sumSubarrayMins(int[] a) {
+        final int n = a.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            left[i] = i;
+            while (left[i] - 1 >= 0 && a[left[i] - 1] > a[i]) {
+                left[i] = left[left[i] - 1];
+            }
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            right[i] = i;
+            while (right[i] + 1 < n && a[right[i] + 1] >= a[i]) {
+                right[i] = right[right[i] + 1];
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            int cnt = (right[i] - i + 1) * (i - left[i] + 1);
+            long contrib = ((long)a[i] * cnt) % MOD;
+            sum = (int) ((sum + contrib) % MOD);
+        }
+        return sum;
+    }
+}
+
 // TLE 重复计算非用stack不可
 class Solution {
 
@@ -64,6 +94,39 @@ class Solution {
         return sum % mod;
     }
 
+}
+
+
+// 一样的问题 - case 87 not pass
+// left side is non-strict
+// right side is strict 
+class Solution {
+    final static int MOD = 1_000_000_007;
+
+    public int sumSubarrayMins(int[] a) {
+        final int n = a.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            left[i] = i;
+            while (left[i] - 1 >= 0 && a[left[i] - 1] >= a[i]) {
+                left[i] = left[left[i] - 1];
+            }
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            right[i] = i;
+            while (right[i] + 1 < n && a[right[i] + 1] > a[i]) {
+                right[i] = right[right[i] + 1];
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            int cnt = (right[i] - i + 1) * (i - left[i] + 1);
+            sum += (a[i] * cnt % MOD);
+            sum %= MOD;
+        }
+        return sum;
+    }
 }
 
 // 哪里错了，不好排查啊 - case 87 didn't pass
