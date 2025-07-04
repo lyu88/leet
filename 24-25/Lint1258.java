@@ -21,6 +21,8 @@ public class Solution {
                     oddCount--;
                 }
             }
+            // IDEA跑了一遍，那个很精彩
+            // 没有reset的情况下，下一个even number把前文的cnt再加一遍
             ret += cnt;
         }
 
