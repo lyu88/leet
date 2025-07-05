@@ -15,7 +15,7 @@ class Solution {
                 }
                 start++;
             }
-            ret += i - start + 1; 
+            ret += i - start + 1;  // 以i结尾的subarray个数
         }
         return ret;
     }
