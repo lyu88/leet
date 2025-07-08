@@ -78,3 +78,38 @@ class Solution {
         return max;
     }
 }
+
+// 思路对了，错在哪？ () 走完没算
+class Solution {
+    public int longestValidParentheses(String s) {
+        int left = 0, right = 0, cnt = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                left++;
+            } else {
+                if (right == left) {
+                    cnt = Math.max(cnt, 2 * right);
+                    left = right = 0;
+                } else {
+                    right++;
+                }
+            }
+        }
+        left = right = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c == ')') {
+                right++;
+            } else {
+                if (right == left) {
+                    cnt = Math.max(cnt, 2 * right);
+                    left = right = 0;
+                } else {
+                    left++;
+                }
+            }
+        }
+        return cnt;
+    }
+}
