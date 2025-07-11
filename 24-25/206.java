@@ -1,3 +1,17 @@
+
+class Solution {
+    
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode last = head.next;
+        ListNode node = reverseList(head.next);
+        last.next = head;
+        head.next = null;
+        return node;
+    }
+}
 /**
  * Definition for singly-linked list.
  * public class ListNode {
